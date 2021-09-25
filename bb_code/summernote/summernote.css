@@ -1,0 +1,32 @@
+.note-editor .note-editing-area .note-editable {
+    background: white;
+}
+
+.note-editor .note-dropdown-item {
+    white-space: nowrap;
+}
+
+.note-editor .dropdown-toggle:after {
+    display: none;
+}
+
+.note-editor .note-toolbar .note-para .note-dropdown-menu {
+    min-width: 238px;
+}
+
+.note-editor .note-toolbar .note-bbCode .note-dropdown-menu {
+    min-width: 220px;
+}
+
+.note-editor .note-toolbar .fa {
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.note-editor .note-toolbar .fa:before {
+    vertical-align: middle;
+}
+
+.note-editor:not(.codeview) .note-advanced {
+    display: none;
+}
