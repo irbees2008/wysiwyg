@@ -1,5 +1,4 @@
 // https://github.com/summernote/summernote/issues/4136
-
 jQuery(function () {
 	function htmlEntities(str) {
 		return String(str)
@@ -8,49 +7,38 @@ jQuery(function () {
 			.replace(/>/g, '&gt;')
 			// .replace(/"/g, '&quot;');
 	}
-
 	function bbCodeCallback(context, $dropdown) {
 		$dropdown.find('a').each(function (index, item) {
 			$(item).on('click', function (event) {
 				event.preventDefault();
-
 				const bbCode = JSON.parse(
 					$(item).attr('data-value').replace(/'/g, '"')
 				);
-
 				insertBbCode(context, bbCode.pre, bbCode.post);
 			});
 		});
 	}
-
 	function insertBbCode(context, pre, post) {
 		const selected = htmlEntities(
 			$.summernote.range.create() || ''
 		);
-
 		context.invoke(
 			'editor.pasteHTML',
 			pre + selected + post
 		);
 	}
-
 	function insertTextInCodeView(context, text) {
 		const [target] = context.layoutInfo.codable;
 		const isActivated = context.invoke('codeview.isActivated');
-
 		if (isActivated && 'selectionStart' in target) {
 			const startPos = target.selectionStart;
-
 			target.value = target.value.substring(0, startPos)
 				+ text
 				+ target.value.substring(startPos, target.value.length);
-
 			target.selectionStart = target.selectionEnd = startPos;
-
 			target.focus();
 		}
 	}
-
 	const summernoteToolbars = {
 		minimal: [
 			['save', ['publish']],
@@ -93,7 +81,6 @@ jQuery(function () {
 			['advanced', ['nextpage', 'more']],
 		],
 	}
-
 	$('textarea.bb_code').summernote({
 		lang: 'ru-RU',
 		toolbar: summernoteToolbars[wysiwyg_toolbar || 'default'],
@@ -104,74 +91,86 @@ jQuery(function () {
 			publish: function (context) {
 				const ui = $.summernote.ui;
 				const tooltip = NGCMS.lang['btn_save'];
-
 				const button = ui.button({
-					contents: `<i class="fa fa-floppy-o" title="${tooltip}" />`,
-					// tooltip: tooltip,
+					contents: `<i class="far fa-save" />`,
+					tooltip: 'Сохранить',
 					click: function (event) {
 						$(this).closest('form').trigger('submit');
 					},
 				});
-
 				return button.render();
 			},
 			preformatted: function (context) {
 				const ui = $.summernote.ui;
-
 				const buttonGroup = ui.buttonGroup([
 					ui.button({
 						className: 'dropdown-toggle',
 						contents: '<i class="fa fa-code" /> <span class="note-icon-caret"></span>',
+						tooltip: 'Вставка кода с подсветкой синтаксиса',
 						data: {
 							toggle: 'dropdown',
 						},
 					}),
-					ui.dropdown({
-						items: [
-							{ title: 'Вставить код без подсветки', value: "{'pre':'[strong]', 'post':'[/strong]'}" },
-							{ title: 'Вставить код HTML', value: "{'pre':'[code=html]', 'post':'[/code]'}" },
-							{ title: 'Вставить код CSS', value: "{'pre':'[code=css]', 'post':'[/code]'}" },
-							{ title: 'Вставить код JS', value: "{'pre':'[code=js]', 'post':'[/code]'}" },
-							{ title: 'Вставить код PHP', value: "{'pre':'[code=php]', 'post':'[/code]'}" },
-							{ title: 'Вставить код SQL', value: "{'pre':'[code=sql]', 'post':'[/code]'}" },
-						],
-						template: function (item) {
-							return item.title;
-						},
-						callback: function ($dropdown) {
-							return bbCodeCallback(context, $dropdown);
-						},
-					})
+					ui.dropdown([
+						ui.buttonGroup({
+							className: 'note-tags',
+							children: [
+								ui.button({
+									contents: `<i class="fa fa-code" aria-label="Вставить код без подсветки" />`,
+									tooltip: 'Код без подсветки ',
+									click: function (event) { insertBbCode(context, '[strong]', '[/strong]') },
+								}),
+								ui.button({
+									contents:` <i class="fab fa-html5" title="Вставить код HTML" />`,
+									tooltip: 'Вставить код HTML',
+									click: function (event) { insertBbCode(context, '[code=html]', '[/code]') },
+								}),
+								ui.button({
+									contents: `<i class="fab fa-css3" title="Вставить код CSS" />`,
+									tooltip: 'Вставить код CSS',
+									click: function (event) { insertBbCode(context, '[code=css]', '[/code]') },
+								}),
+								ui.button({
+									contents: `<i class="fab fa-js-square" title="Вставить код JS" />`,
+									tooltip: 'Вставить код JS',
+									click: function (event) { insertBbCode(context, '[code=js]', '[/code]') },
+								}),
+								ui.button({
+									contents: `<i class="fab fa-php" title="Вставить код PHP" />`,
+									tooltip: 'Вставить код PHP',
+									click: function (event) { insertBbCode(context, '[code=php]', '[/code]') },
+								}),
+								ui.button({
+									contents: `<i class="fas fa-database" title="Вставить код SQL" />`,
+									tooltip: 'Вставить код SQL',
+									click: function (event) { insertBbCode(context, '[code=sql]', '[/code]') },
+								}),
+							],
+						})
+					])
 				]);
-
 				return buttonGroup.render();
 			},
 			file: function (context) {
 				const ui = $.summernote.ui;
 				const tooltip = NGCMS.lang['tags.file'];
 				const token = $('input[name="token"]').val();
-
 				const button = ui.button({
-					contents: `<i class="fa fa-file-text-o" title="${tooltip}" />`,
-					// tooltip: tooltip,
+					contents: `<i class="fas fa-file-upload" />`,
+					tooltip: 'Загрузить файл',
 					click: function (event) {
 						const input = $('<input type="file" hidden style="display: none;" />');
-
 						$(input).on('change', function (event) {
-
 							if (!this.files || !this.files.length) {
 								return false;
 							}
-
 							const formData = new FormData();
-
 							formData.append('Filedata', this.files[0]);
 							// ngAuthCookie: '{authcookie}',
 							formData.append('uploadType', 'file');
 							// category: $('#categorySelect').val(),
 							// formData.append('rand', 1);
 							// formData.append('replace', 0);
-
 							$.ajax({
 								method: 'POST',
 								url: '/engine/rpc.php?methodName=admin.files.upload',
@@ -195,7 +194,6 @@ jQuery(function () {
 											<p>${response.errorDescription}</p>
 										`);
 									}
-
 									return response;
 								})
 								.done(function (response, textStatus, jqXHR) {
@@ -216,15 +214,14 @@ jQuery(function () {
 						}).trigger('click');
 					},
 				});
-
 				return button.render();
 			},
 			bbCode: function (context) {
 				const ui = $.summernote.ui;
-
 				const buttonGroup = ui.buttonGroup([
 					ui.button({
 						className: 'dropdown-toggle',
+						tooltip: 'Допонительные теги',
 						contents: '<i class="fa fa-quote-left" /> <span class="note-icon-caret"></span>',
 						data: {
 							toggle: 'dropdown',
@@ -236,63 +233,66 @@ jQuery(function () {
 							children: [
 								ui.button({
 									contents: `<i class="fa fa-code" title="${NGCMS.lang['tags.code']}" />`,
+									tooltip: 'Вставка кода без подсветки ',
 									click: function (event) { insertBbCode(context, '[code]', '[/code]') },
 								}),
 								ui.button({
-									contents: `<i class="fa fa-envelope-o" title="${NGCMS.lang['tags.email']}" />`,
+									contents: `<i class="fas fa-at" title="${NGCMS.lang['tags.email']}" />`,
+									tooltip: 'EMAIL',
 									click: function (event) { insertBbCode(context, '[email]', '[/email]') },
 								}),
 								ui.button({
 									contents: `<i class="fa fa-list-alt" title="${NGCMS.lang['tags.spoiler']}" />`,
+									tooltip: 'Спойлер',
 									click: function (event) { insertBbCode(context, '[spoiler]', '[/spoiler]') },
 								}),
 								ui.button({
 									contents: `<i class="fa fa-tags" title="${NGCMS.lang['tags.acronym']}" />`,
+									tooltip: 'Акроним',
 									click: function (event) { insertBbCode(context, '[acronym=]', '[/acronym]') },
 								}),
 								ui.button({
-									contents: `<i class="fa fa-shield" title="${NGCMS.lang['tags.hide']}" />`,
+									contents: `<i class="fas fa-user-shield title="${NGCMS.lang['tags.hide']}" />`,
+									tooltip: 'Блок для зарегистрированных',
 									click: function (event) { insertBbCode(context, '[hide]', '[/hide]') },
 								}),
 								ui.button({
 									contents: `<i class="fa fa-quote-left" title="${NGCMS.lang['tags.quote']}" />`,
+									tooltip: 'Цитирование',
 									click: function (event) { insertBbCode(context, '[quote]', '[/quote]') },
 								}),
 							],
 						})
 					])
 				]);
-
 				return buttonGroup.render();
 			},
 			nextpage: function (context) {
 				const ui = $.summernote.ui;
 				const tooltip = NGCMS.lang['tags.nextpage'];
-
 				const button = ui.button({
-					contents: `<i class="fa fa-files-o" title="${tooltip}" />`,
-					// tooltip: tooltip,
+					className: 'note-codeview-keep',
+					contents: `<i class="far fa-copy" />`,
+					tooltip: tooltip,
 					codeviewKeepButton: true,
 					click: function (event) {
 						return insertTextInCodeView(context, '<!--nextpage-->');
 					},
 				});
-
 				return button.render();
 			},
 			more: function (context) {
 				const ui = $.summernote.ui;
 				const tooltip = NGCMS.lang['tags.more'];
-
 				const button = ui.button({
-					contents: `<i class="fa fa-ellipsis-h" title="${tooltip}" />`,
-					// tooltip: tooltip,
+					className: 'note-codeview-keep',
+					contents: `<i class="fa fa-ellipsis-h" />`,
+					tooltip: tooltip,
 					codeviewKeepButton: true,
 					click: function (event) {
 						return insertTextInCodeView(context, '<!--more-->');
 					},
 				});
-
 				return button.render();
 			},
 		},
@@ -300,10 +300,8 @@ jQuery(function () {
 			onImageUpload: function (files) {
 				const currentEditorContainer = this;
 				const token = $('input[name="token"]').val();
-
 				// upload image to server and create imgNode...
 				const formData = new FormData();
-
 				formData.append('Filedata', files[0]);
 				// ngAuthCookie: '{authcookie}',
 				formData.append('uploadType', 'image');
@@ -313,7 +311,6 @@ jQuery(function () {
 				formData.append('thumb', 1);
 				// stamp: $('#flagStamp').is(':checked') ? 1 : 0,
 				// shadow: $('#flagShadow').is(':checked') ? 1 : 0
-
 				$.ajax({
 					method: 'POST',
 					url: '/engine/rpc.php?methodName=admin.files.upload',
@@ -337,7 +334,6 @@ jQuery(function () {
 								<p>${response.errorDescription}</p>
 							`);
 						}
-
 						return response;
 					})
 					.done(function (response, textStatus, jqXHR) {

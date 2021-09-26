@@ -1,22 +1,12 @@
 <?php
 
-if (! defined('NGCMS')) {
+if (!defined('NGCMS')) {
     die('HAL');
 }
 
 function bb(&$tvars)
 {
     $mapping = [
-        'jodit' => [
-            'js' => [
-                'jodit.min.js',
-                'jodit.js',
-            ],
-            'css' => [
-                'jodit.min.css',
-                ['http://fonts.googleapis.com/css?family=Lato:100,300,400,700,100italic,300italic,400italic,700italic', 'absolute'],
-            ],
-        ],
         'summernote' => [
             'js' => [
                 'summernote-0.8.18/summernote-lite.min.js',
@@ -54,7 +44,7 @@ function bb(&$tvars)
         if ('summernote' === $id) {
             $toolbar = pluginGetVariable('wysiwyg', 'toolbar');
 
-            $list[] = '<script>window.wysiwyg_toolbar = "'.$toolbar.'"</script>';
+            $list[] = '<script>window.wysiwyg_toolbar = "' . $toolbar . '"</script>';
         }
 
         foreach ($mapping[$id]['js'] as $v) {
@@ -62,11 +52,11 @@ function bb(&$tvars)
             $url = is_array($v) ? $v[0] : $v;
 
             // Add leading part if URL is not absolute
-            if (! is_array($v) || $v[1] != 'absolute') {
-                $url = admin_url.'/plugins/wysiwyg/bb_code/'.$id.'/'.$url;
+            if (!is_array($v) || $v[1] != 'absolute') {
+                $url = admin_url . '/plugins/wysiwyg/bb_code/' . $id . '/' . $url;
             }
 
-            $list[] = '<script type="text/javascript" src="'.$url.'"></script>';
+            $list[] = '<script type="text/javascript" src="' . $url . '"></script>';
         }
 
         foreach ($mapping[$id]['css'] as $v) {
@@ -74,16 +64,16 @@ function bb(&$tvars)
             $url = is_array($v) ? $v[0] : $v;
 
             // Add leading part if URL is not absolute
-            if (! is_array($v) || $v[1] != 'absolute') {
-                $url = admin_url.'/plugins/wysiwyg/bb_code/'.$id.'/'.$url;
+            if (!is_array($v) || $v[1] != 'absolute') {
+                $url = admin_url . '/plugins/wysiwyg/bb_code/' . $id . '/' . $url;
             }
 
-            $list[] = '<link rel="stylesheet" href="'.$url.'" type="text/css" media="screen" />';
+            $list[] = '<link rel="stylesheet" href="' . $url . '" type="text/css" media="screen" />';
         }
     }
 
     if (count($list)) {
-        $tvars['preloadRAW'] = (isset($tvars['preloadRAW']) ? $tvars['preloadRAW'] : '').join("\n", $list);
+        $tvars['preloadRAW'] = (isset($tvars['preloadRAW']) ? $tvars['preloadRAW'] : '') . join("\n", $list);
         $tvars['flags']['disableTagsSmilies'] = true;
         $tvars['editorClassName'] = 'bb_code';
     }
