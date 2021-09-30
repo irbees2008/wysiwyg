@@ -67,7 +67,6 @@ jQuery(function () {
 		],
 		maximum: [
 			['edit', ['undo', 'redo']],
-			['preformatted', ['preformatted']],
 			['style', ['bold', 'italic', 'underline', /**'superscript', 'subscript',**/ 'strikethrough', 'clear']],
 			['headline', ['style']],
 			['fontname', ['fontname']],
@@ -76,6 +75,7 @@ jQuery(function () {
 			['para', ['ul', 'ol', 'paragraph']],
 			['bbCode', ['bbCode']],
 			['insert', ['link', 'picture', 'file', 'video', 'table', 'hr']],
+			['preformatted', ['preformatted']],
 			['view', ['fullscreen', 'codeview', 'help']],
 			['advanced', ['nextpage', 'more']],
 			['save', ['publish']],
@@ -104,7 +104,7 @@ jQuery(function () {
 				const ui = $.summernote.ui;
 				const buttonGroup = ui.buttonGroup([
 					ui.button({
-						className: 'dropdown-toggle',
+						className: 'dropdown-toggle show',
 						contents: '<i class="fa fa-code" /> <span class="note-icon-caret"></span>',
 						tooltip: 'Вставка кода с подсветкой синтаксиса',
 						data: {
@@ -113,37 +113,37 @@ jQuery(function () {
 					}),
 					ui.dropdown([
 						ui.buttonGroup({
-							className: 'note-tags',
+							className: 'note-align',
 							children: [
 								ui.button({
 									contents: `<i class="fa fa-code" aria-label="Вставить код без подсветки" />`,
 									tooltip: 'Код без подсветки ',
-									click: function (event) { insertBbCode(context, '[strong]', '[/strong]') },
+									click: function (event) { insertBbCode(context, '<strong class="strong">', '</strong>') },
 								}),
 								ui.button({
 									contents:` <i class="fab fa-html5" title="Вставить код HTML" />`,
 									tooltip: 'Вставить код HTML',
-									click: function (event) { insertBbCode(context, '[code=html]', '[/code]') },
+									click: function (event) { insertBbCode(context, '<div class="bbCodeName" style="padding-left:5px;font-weight:bold;font-size:7pt">Код: html</div><div class="code_sample"><pre style="border:1px inset;max-height:200px;overflow:auto;" class="html">', '</pre></div>') },
 								}),
 								ui.button({
 									contents: `<i class="fab fa-css3" title="Вставить код CSS" />`,
 									tooltip: 'Вставить код CSS',
-									click: function (event) { insertBbCode(context, '[code=css]', '[/code]') },
+									click: function (event) { insertBbCode(context, '<div class="bbCodeName" style="padding-left:5px;font-weight:bold;font-size:7pt">Код: css</div><div class="code_sample"><pre style="border:1px inset;max-height:200px;overflow:auto;" class="css">', '</pre></div>') },
 								}),
 								ui.button({
 									contents: `<i class="fab fa-js-square" title="Вставить код JS" />`,
 									tooltip: 'Вставить код JS',
-									click: function (event) { insertBbCode(context, '[code=js]', '[/code]') },
+									click: function (event) { insertBbCode(context, '<div class="bbCodeName" style="padding-left:5px;font-weight:bold;font-size:7pt">Код: js</div><div class="code_sample"><pre style="border:1px inset;max-height:200px;overflow:auto;" class="js">', '</pre></div>') },
 								}),
 								ui.button({
 									contents: `<i class="fab fa-php" title="Вставить код PHP" />`,
 									tooltip: 'Вставить код PHP',
-									click: function (event) { insertBbCode(context, '[code=php]', '[/code]') },
+									click: function (event) { insertBbCode(context, '<div class="bbCodeName" style="padding-left:5px;font-weight:bold;font-size:7pt">Код: php</div><div class="code_sample"><pre style="border:1px inset;max-height:200px;overflow:auto;" class="php">', '</pre></div>') },
 								}),
 								ui.button({
 									contents: `<i class="fas fa-database" title="Вставить код SQL" />`,
 									tooltip: 'Вставить код SQL',
-									click: function (event) { insertBbCode(context, '[code=sql]', '[/code]') },
+									click: function (event) { insertBbCode(context, '<div class="bbCodeName" style="padding-left:5px;font-weight:bold;font-size:7pt">Код: sql</div><div class="code_sample"><pre style="border:1px inset;max-height:200px;overflow:auto;" class="sql">', '</pre></div>') },
 								}),
 							],
 						})
@@ -220,7 +220,7 @@ jQuery(function () {
 				const ui = $.summernote.ui;
 				const buttonGroup = ui.buttonGroup([
 					ui.button({
-						className: 'dropdown-toggle',
+						className: 'dropdown-toggle show ',
 						tooltip: 'Допонительные теги',
 						contents: '<i class="fa fa-quote-left" /> <span class="note-icon-caret"></span>',
 						data: {
@@ -229,12 +229,12 @@ jQuery(function () {
 					}),
 					ui.dropdown([
 						ui.buttonGroup({
-							className: 'note-tags',
+							className: 'note-align',
 							children: [
 								ui.button({
 									contents: `<i class="fa fa-code" title="${NGCMS.lang['tags.code']}" />`,
 									tooltip: 'Вставка кода без подсветки ',
-									click: function (event) { insertBbCode(context, '[code]', '[/code]') },
+									click: function (event) { insertBbCode(context, '<pre>', '</pre>') },
 								}),
 								ui.button({
 									contents: `<i class="fas fa-at" title="${NGCMS.lang['tags.email']}" />`,
@@ -244,12 +244,12 @@ jQuery(function () {
 								ui.button({
 									contents: `<i class="fa fa-list-alt" title="${NGCMS.lang['tags.spoiler']}" />`,
 									tooltip: 'Спойлер',
-									click: function (event) { insertBbCode(context, '[spoiler]', '[/spoiler]') },
+									click: function (event) { insertBbCode(context, '<div class="spoiler"><div class="sp-head" onclick="toggleSpoiler(this.parentNode, this);"><b></b>Раскрыть</div><div class="sp-body">', '</div></div>') },
 								}),
 								ui.button({
 									contents: `<i class="fa fa-tags" title="${NGCMS.lang['tags.acronym']}" />`,
 									tooltip: 'Акроним',
-									click: function (event) { insertBbCode(context, '[acronym=]', '[/acronym]') },
+									click: function (event) { insertBbCode(context, '<acronym>', '<acronym>') },
 								}),
 								ui.button({
 									contents: `<i class="fas fa-user-shield title="${NGCMS.lang['tags.hide']}" />`,
@@ -259,7 +259,7 @@ jQuery(function () {
 								ui.button({
 									contents: `<i class="fa fa-quote-left" title="${NGCMS.lang['tags.quote']}" />`,
 									tooltip: 'Цитирование',
-									click: function (event) { insertBbCode(context, '[quote]', '[/quote]') },
+									click: function (event) { insertBbCode(context, '<blockquote>', '</blockquote>') },
 								}),
 							],
 						})
