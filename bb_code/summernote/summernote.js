@@ -41,7 +41,6 @@ jQuery(function () {
 	}
 	const summernoteToolbars = {
 		minimal: [
-			['save', ['publish']],
 			['edit', ['undo', 'redo']],
 			['style', ['bold', 'italic', 'underline', /**'superscript', 'subscript',**/ 'strikethrough', 'clear']],
 			['headline', ['style']],
@@ -50,9 +49,9 @@ jQuery(function () {
 			['insert', ['link', 'picture', 'file']],
 			['view', ['fullscreen', 'codeview', 'help']],
 			['advanced', ['nextpage', 'more']],
+			['save', ['publish']],
 		],
 		default: [
-			['save', ['publish']],
 			['edit', ['undo', 'redo']],
 			['style', ['bold', 'italic', 'underline', /**'superscript', 'subscript',**/ 'strikethrough', 'clear']],
 			['headline', ['style']],
@@ -64,9 +63,9 @@ jQuery(function () {
 			['insert', ['link', 'picture', 'file']],
 			['view', ['fullscreen', 'codeview', 'help']],
 			['advanced', ['nextpage', 'more']],
+			['save', ['publish']],
 		],
 		maximum: [
-			['save', ['publish']],
 			['edit', ['undo', 'redo']],
 			['preformatted', ['preformatted']],
 			['style', ['bold', 'italic', 'underline', /**'superscript', 'subscript',**/ 'strikethrough', 'clear']],
@@ -79,6 +78,7 @@ jQuery(function () {
 			['insert', ['link', 'picture', 'file', 'video', 'table', 'hr']],
 			['view', ['fullscreen', 'codeview', 'help']],
 			['advanced', ['nextpage', 'more']],
+			['save', ['publish']],
 		],
 	}
 	$('textarea.bb_code').summernote({
