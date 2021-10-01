@@ -46,7 +46,7 @@ jQuery(function () {
 			['headline', ['style']],
 			['para', ['ul', 'ol', 'paragraph']],
 			['bbCode', ['bbCode']],
-			['insert', ['link', 'picture', 'file']],
+			['insert', ['link', 'picture','elfinder','file']],
 			['view', ['fullscreen', 'codeview', 'help']],
 			['advanced', ['nextpage', 'more']],
 			['save', ['publish']],
@@ -60,7 +60,7 @@ jQuery(function () {
 			['color', ['color']],
 			['para', ['ul', 'ol', 'paragraph']],
 			['bbCode', ['bbCode']],
-			['insert', ['link', 'picture', 'file']],
+			['insert', ['link', 'picture','elfinder', 'file']],
 			['view', ['fullscreen', 'codeview', 'help']],
 			['advanced', ['nextpage', 'more']],
 			['save', ['publish']],
@@ -74,12 +74,31 @@ jQuery(function () {
 			['color', ['color']],
 			['para', ['ul', 'ol', 'paragraph']],
 			['bbCode', ['bbCode']],
-			['insert', ['link', 'picture', 'file', 'video', 'table', 'hr']],
+			['insert', ['link', 'picture','elfinder','file', 'video', 'table', 'hr']],
 			['preformatted', ['preformatted']],
 			['view', ['fullscreen', 'codeview', 'help']],
 			['advanced', ['nextpage', 'more']],
 			['save', ['publish']],
 		],
+	}
+	function elfinderDialog() {
+		var fm = $('<div/>').dialogelfinder({
+			url : 'https://ngcmshak.ru/engine/plugins/wysiwyg/bb_code/summernote/summernote-0.8.18/plugin/elFinder/php/connector.minimal.php', // change with the url of your connector
+			lang : 'ru',
+			width : 840,
+			height: 450,
+			destroyOnClose : true,
+			getFileCallback : function(files, fm) {
+				console.log(files);
+				$('.editor').summernote('editor.insertImage', files.url);
+			},
+			commandsOptions : {
+				getfile : {
+				oncomplete : 'close',
+				folders : false
+				}
+			}
+		}).dialogelfinder('instance');
 	}
 	$('textarea.bb_code').summernote({
 		lang: 'ru-RU',
