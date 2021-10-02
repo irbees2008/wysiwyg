@@ -14,12 +14,14 @@ function bb(&$tvars)
                 'summernote.js',
                 'summernote-0.8.18/plugin/summernote-ext-elfinder/summernote-ext-elfinder.js',
                 'summernote-0.8.18/plugin/elFinder/js/elfinder.min.js',
+                'summernote-0.8.18/plugin/elFinder/js/jquery-ui.min.js',
 
             ],
             'css' => [
                 'summernote-0.8.18/summernote-bs4.min.css',
                 'summernote.css',
                 'summernote-0.8.18/plugin/elFinder/css/elfinder.min.css',
+                'summernote-0.8.18/plugin/elFinder/css/jquery-ui.css',
             ],
         ],
         'tinymce' => [
