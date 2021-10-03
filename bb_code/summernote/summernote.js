@@ -81,25 +81,7 @@ jQuery(function () {
 			['save', ['publish']],
 		],
 	}
-	function elfinderDialog() {
-		var fm = $('<div/>').dialogelfinder({
-			url : 'https://ngcmshak.ru/engine/plugins/wysiwyg/bb_code/summernote/summernote-0.8.18/plugin/elFinder/php/connector.minimal.php', // change with the url of your connector
-			lang : 'ru',
-			width : 840,
-			height: 450,
-			destroyOnClose : true,
-			getFileCallback : function(files, fm) {
-				console.log(files);
-				$('.editor').summernote('editor.insertImage', files.url);
-			},
-			commandsOptions : {
-				getfile : {
-				oncomplete : 'close',
-				folders : false
-				}
-			}
-		}).dialogelfinder('instance');
-	}
+
 	$('textarea.bb_code').summernote({
 		lang: 'ru-RU',
 		toolbar: summernoteToolbars[wysiwyg_toolbar || 'default'],

@@ -12,9 +12,9 @@ function bb(&$tvars)
                 'summernote-0.8.18/summernote-bs4.min.js',
                 'summernote-0.8.18/lang/summernote-ru-RU.min.js',
                 'summernote.js',
-                'summernote-0.8.18/plugin/summernote-ext-elfinder/summernote-ext-elfinder.js',
-                'summernote-0.8.18/plugin/elFinder/js/elfinder.min.js',
                 'summernote-0.8.18/plugin/elFinder/js/jquery-ui.min.js',
+                'summernote-0.8.18/plugin/elFinder/js/elfinder.min.js',
+                'summernote-0.8.18/plugin/summernote-ext-elfinder.js',
 
             ],
             'css' => [

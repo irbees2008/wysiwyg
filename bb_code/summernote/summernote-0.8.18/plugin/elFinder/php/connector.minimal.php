@@ -2,6 +2,9 @@
 
 error_reporting(0); // Set E_ALL for debuging
 
+$rootpath = $_SERVER['DOCUMENT_ROOT'];
+@include_once $rootpath . '/engine/core.php';
+
 // // Optional exec path settings (Default is called with command name only)
 // define('ELFINDER_TAR_PATH',      '/PATH/TO/tar');
 // define('ELFINDER_GZIP_PATH',     '/PATH/TO/gzip');
@@ -23,7 +26,7 @@ error_reporting(0); // Set E_ALL for debuging
 // define('ELFINDER_DEBUG_ERRORLEVEL', -1); // Error reporting level of debug mode
 
 // // To Enable(true) handling of PostScript files by ImageMagick
-// // It is disabled by default as a countermeasure 
+// // It is disabled by default as a countermeasure
 // // of Ghostscript multiple -dSAFER sandbox bypass vulnerabilities
 // // see https://www.kb.cert.org/vuls/id/332928
 // define('ELFINDER_IMAGEMAGICK_PS', true);
@@ -149,8 +152,8 @@ $opts = array(
 		// Items volume
 		array(
 			'driver'        => 'LocalFileSystem',           // driver for accessing file system (REQUIRED)
-			'path'          => '../files/',                 // path to files (REQUIRED)
-			'URL'           => dirname($_SERVER['PHP_SELF']) . '/../files/', // URL to files (REQUIRED)
+			'path'          => site_root.'uploads/', 		// path to files (REQUIRED)
+			'URL'           => home.'/uploads/', //  		// URL to files (REQUIRED)
 			'trashHash'     => 't1_Lw',                     // elFinder's hash of trash folder
 			'winHashFix'    => DIRECTORY_SEPARATOR !== '/', // to make hash same to Linux one on windows too
 			'uploadDeny'    => array('all'),                // All Mimetypes not allowed to upload
@@ -176,4 +179,3 @@ $opts = array(
 // run elFinder
 $connector = new elFinderConnector(new elFinder($opts));
 $connector->run();
-
