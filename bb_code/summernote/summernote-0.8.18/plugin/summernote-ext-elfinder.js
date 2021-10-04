@@ -48,6 +48,7 @@
   function elfinderDialog(context) {
     $('<div/>').dialogelfinder({
       url: '/engine/plugins/wysiwyg/bb_code/summernote/summernote-0.8.18/plugin/elFinder/php/connector.minimal.php', // change with the url of your connector
+      baseUrl: '/engine/plugins/wysiwyg/bb_code/summernote/summernote-0.8.18/plugin/elFinder/',
       lang: 'ru',
       width: 840,
       height: 450,
